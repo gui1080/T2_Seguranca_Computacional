@@ -79,13 +79,66 @@ def sub_bytes(matriz):
 # ------------------------------------------------
 
 def shift_rows(matriz):
-    
+    #embaralha as colunas: segunda linha uma vez, terceira 2 vezes e quarta linha vezes
+    for i in range(3):
+        temp0 = matriz[i+1][0]
+        temp1 = matriz[i+1][1]
+        temp2 = matriz[i+1][2]
+        temp3 = matriz[i+1][3]
+        matriz[i+1][0]= temp1
+        matriz[i+1][1]= temp2
+        matriz[i+1][2]= temp3
+        matriz[i+1][3]= temp0
+        if i>0:
+            temp0 = matriz[i+1][0]
+            temp1 = matriz[i+1][1]
+            temp2 = matriz[i+1][2]
+            temp3 = matriz[i+1][3]
+            matriz[i+1][0]= temp1
+            matriz[i+1][1]= temp2
+            matriz[i+1][2]= temp3
+            matriz[i+1][3]= temp0
+            if i==2:
+                temp0 = matriz[i+1][0]
+                temp1 = matriz[i+1][1]
+                temp2 = matriz[i+1][2]
+                temp3 = matriz[i+1][3]
+                matriz[i+1][0]= temp1
+                matriz[i+1][1]= temp2
+                matriz[i+1][2]= temp3
+                matriz[i+1][3]= temp0
+
     return matriz
 
 # ------------------------------------------------
 
 def mix_columns(matriz):
-    
+    #multiplica as colunas da matriz por um outra matriz específica
+    #essa funcao ainda nao funciona direito, eu queria saber se tem como converter array em python pra array hexadecimal em numpy
+    mixer=[[2,3,1,1],
+           [1,2,3,1],
+           [1,1,2,3],
+           [3,1,1,2]]
+    coluna=[[0],
+            [0],
+            [0],
+            [0]]
+    matriztemp=matriz.copy()
+    for i in range(4):
+        for j in range(4):
+            coluna[j][0] = matriztemp[j][i]
+            if j==3:
+                mimixer=np.array(mixer)
+                cocoluna=np.array(mixer)
+                tempcol=np.matmul(cocoluna,mimixer)
+                print("cocoluna:",cocoluna,"\n")
+                print("mimixer:",mimixer,"\n")
+                print("tempcol:",tempcol,"\n")
+                for k in range(4):
+                    matriz[k][i]=tempcol[k][0]
+                    tempcol[k][0]=0
+
+
     return matriz
 
 # ------------------------------------------------
