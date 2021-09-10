@@ -30,4 +30,6 @@ O repositório se torna público e "read-only" após último dia reservado para 
 
 # Observação
 
+Referência da imagem: Study of WiMAX Based Communication Channel Effects on the Ciphered Image Using MAES Algorithm - Scientific Figure on ResearchGate. Available from: https://www.researchgate.net/figure/Block-diagram-for-AES-encryption-and-decryption_fig1_324796235 [accessed 10 Sep, 2021]
+
 
