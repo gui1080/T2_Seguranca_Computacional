@@ -6,8 +6,12 @@
 
 # Imports
 # ------------------------------------------------
+
 import numpy as np
 import math
+
+from imagem import pega_string_da_imagem
+
 # ------------------------------------------------
 
 # AES encryption (etapas)
@@ -140,6 +144,54 @@ def mix_columns(matriz):
 
 
     return matriz
+
+# ------------------------------------------------
+
+# SIMPLE AES ENC
+# funciona para uma string de tamanho x
+# faz AES n vezes para cada subsegmento da string
+
+def aes(key, string, qntd_iteracoes):
+    
+    # aes recebe a string inteira a ser cifrada
+    # deve-se pegar os grupos de 32 numeros, transformar em matriz
+    # e fazer isso até a string original acabar
+    
+    string_final = ""
+    
+    # tamanho da string (eita)
+    tamanho_img = len(string) 
+
+    # arredonda pra baixo
+    qtnd_float = tamanho_img / 32
+    quantidade = math.floor(qtnd_float) 
+    
+    key_atual = create_input(key)
+    
+    for i in range(quantidade):
+        
+        iteracao = pega_string_da_imagem(string, i)
+        
+        matriz_atual = create_input(iteracao)
+        
+        # for j in range(qntd_iteracoes):
+        
+            # keygen(j) 
+        
+            # add  round key
+        
+            # substitute bytes
+        
+            # shift rows
+        
+            # mix columns
+            
+        # string_final = string_final + matriz_to_string(matriz_atual)
+        
+    
+    
+    return string_final
+
 
 # ------------------------------------------------
 

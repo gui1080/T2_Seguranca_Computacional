@@ -6,11 +6,16 @@
 
 # Imports
 # ------------------------------------------------
+
 import math
 from copy import copy
+
 # ------------------------------------------------
 
 def gera_key(key, iteracao):
+
+    if iteracao == 0:
+        return key
 
     # essa função pega a key antiga e gera uma nova key para cada round do AES
     

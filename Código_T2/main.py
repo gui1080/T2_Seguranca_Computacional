@@ -14,34 +14,55 @@ from AES_enc import create_input, sub_bytes
 from AES_enc import add_round_key
 from AES_enc import shift_rows
 from AES_enc import mix_columns
+from AES_enc import aes
 
 from key_gen import gera_key
 
 from imagem import pega_string_da_imagem
 
-# ------------------------------------------------
-# testando conversão de imagem
-
-# abrindo a imagem
-with open("lenna.png", "rb") as image2string:
-    converted_string = base64.b16encode(image2string.read())
-
-# string contendo a imagem
-new_string = str(converted_string, "utf-8").lower()
-
-# tamanho da string (eita)
-tamanho_img = len(new_string) 
-print(tamanho_img)
-
-# arredonda pra baixo
-qtnd_float = tamanho_img / 32
-quantidade = math.floor(qtnd_float) 
-
-# assim é possível pegar um pedaço da string
-iteracao_0 = pega_string_da_imagem(new_string, 5125)
-print(iteracao_0)
 
 # ------------------------------------------------
+
+# pegar do usuário o que é para ser executado!
+op = int(input("Que operação realizar?\nResponda com número equivalente.\n\n1- Cifrar (AES Simples)\n2- Decifra(AES Simples)\n"))
+
+
+if(op == 1):
+    
+    imagem = input("Entre com o nome da imagem.\nExemplo: 'lenna.png'\n")
+    
+    # abrindo a imagem
+    with open(imagem, "rb") as image2string:
+        converted_string = base64.b16encode(image2string.read())
+
+    # string contendo a imagem
+    new_string = str(converted_string, "utf-8").lower()
+
+    # passa a chave
+    key = input("Entre com a sua chave (formato de string)\n")
+    key = key.lower()  
+
+    # faz o aes
+
+    
+if(op == 2):
+    
+    # string contendo a imagem
+    new_string = input("Entre com a sua mensagem cifrada\n")
+    new_string = new_string.lower()
+
+    # passa a chave
+    key = input("Entre com a sua chave\n")
+    key = key.lower() 
+    
+    # faz o aes inverso 
+    
+    
+
+
+# ------------------------------------------------
+
+# coisas de exemplo, apaga dps
 
 # strings de exemplo
 a = '5a746f2a4f6e15202e696e642054a46f'
