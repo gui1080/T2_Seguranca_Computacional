@@ -116,32 +116,46 @@ def shift_rows(matriz):
 
 # ------------------------------------------------
 
+def multiplica_por_2(v):
+    s = v << 1
+    s &= 0xff
+    if (v & 128) != 0:
+        s = s ^ 0x1b
+    return s
+
+
+def multiplica_por_3(v):
+    return multiplica_por_2(v) ^ v
+
+
 def mix_columns(matriz):
-    #multiplica as colunas da matriz por um outra matriz específica
-    #essa funcao ainda nao funciona direito, eu queria saber se tem como converter array em python pra array hexadecimal em numpy
-    mixer=[[2,3,1,1],
-           [1,2,3,1],
-           [1,1,2,3],
-           [3,1,1,2]]
-    coluna=[[0],
-            [0],
-            [0],
-            [0]]
-    matriztemp=matriz.copy()
+
+    matriztemp = matriz.copy()
+    
     for i in range(4):
         for j in range(4):
-            coluna[j][0] = matriztemp[j][i]
-            if j==3:
-                mimixer=np.array(mixer)
-                cocoluna=np.array(mixer)
-                tempcol=np.matmul(cocoluna,mimixer)
-                print("cocoluna:",cocoluna,"\n")
-                print("mimixer:",mimixer,"\n")
-                print("tempcol:",tempcol,"\n")
-                for k in range(4):
-                    matriz[k][i]=tempcol[k][0]
-                    tempcol[k][0]=0
+            matriztemp[i][j] = int(matriz[i][j], 16)
 
+    coluna=[0, 0, 0, 0]
+    
+    for i in range(4):
+        
+        for j in range(4):
+            coluna[j] = matriztemp[i][j]
+        
+        matriztemp[i][0] = multiplica_por_2(int(coluna[0], 16)) ^ multiplica_por_3(int(coluna[1], 16)) ^ int(coluna[2], 16) ^ int(coluna[3], 16) 
+        
+        matriztemp[i][1] = multiplica_por_2(int(coluna[1], 16)) ^ multiplica_por_3(int(coluna[2], 16)) ^ int(coluna[3], 16) ^ int(coluna[0], 16)
+        
+        matriztemp[i][2] = multiplica_por_2(int(coluna[2], 16)) ^ multiplica_por_3(int(coluna[3], 16)) ^ int(coluna[0], 16) ^ int(coluna[1], 16)
+        
+        matriztemp[i][3] = multiplica_por_2(int(coluna[3], 16)) ^ multiplica_por_3(int(coluna[0], 16)) ^ int(coluna[1], 16) ^ int(coluna[2], 16)
+
+    for i in range(4):
+        for j in range(4):
+            
+            elem = (hex(int(matriztemp[i][j]))[2:])
+            matriz[i][j] = elem
 
     return matriz
 
