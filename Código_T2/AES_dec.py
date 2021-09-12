@@ -14,6 +14,18 @@ from AES_enc import multiplica_por_2, multiplica_por_3
 
 # ------------------------------------------------
 
+def inv_sub_bytes(matriz):
+    
+    return(matriz)
+
+# ------------------------------------------------
+
+def inv_shift_rows(matriz):
+    
+    return matriz
+
+# ------------------------------------------------
+
 def inv_mix_columns(matriz):
     
     # igual ao mix columns normal, porém com 3 mudanças nas colunas no lugar de apenas 1
@@ -56,5 +68,11 @@ def inv_mix_columns(matriz):
             matriz[i][j] = elem
 
     return matriz
+
+# ------------------------------------------------
+
+def dec_aes_ecb(key, string, qntd_iteracoes):
+    
+    return string
 
 # ------------------------------------------------

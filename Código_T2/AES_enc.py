@@ -11,6 +11,7 @@ import numpy as np
 import math
 
 from imagem import pega_string_da_imagem
+from key_gen import gera_key
 
 # ------------------------------------------------
 
@@ -32,7 +33,7 @@ def vira_string(matriz):
             if(len(str(matriz[i][j])) == 1):
                 resultado = resultado + '0' + str(matriz[i][j])
             else:
-                resultado = resultado + '0' + str(matriz[i][j])
+                resultado = resultado + str(matriz[i][j])
 
     return resultado
 
@@ -183,7 +184,7 @@ def mix_columns(matriz):
 # funciona para uma string de tamanho x
 # faz AES n vezes para cada subsegmento da string
 
-def aes_ecb(key, string, qntd_iteracoes):
+def enc_aes_ecb(key, string, qntd_iteracoes):
     
     # aes recebe a string inteira a ser cifrada
     # deve-se pegar os grupos de 32 numeros, transformar em matriz
@@ -198,30 +199,28 @@ def aes_ecb(key, string, qntd_iteracoes):
     qtnd_float = tamanho_img / 32
     quantidade = math.floor(qtnd_float) 
     
-    key_atual = create_input(key)
-    
     for i in range(quantidade):
         
         iteracao = pega_string_da_imagem(string, i)
         
         matriz_atual = create_input(iteracao)
         
-        # for j in range(qntd_iteracoes):
+        key_atual = create_input(key)
         
-            # keygen(j) 
+        for j in range(qntd_iteracoes):
         
-            # add  round key
+            key_atual = gera_key(key_atual, j)
         
-            # substitute bytes
+            matriz_atual = add_round_key(matriz_atual, key_atual)
         
-            # shift rows
+            matriz_atual = sub_bytes(matriz_atual)
         
-            # mix columns
+            matriz_atual = shift_rows(matriz_atual)
+        
+            matriz_atual = mix_columns(matriz_atual)
             
-        # string_final = string_final + matriz_to_string(matriz_atual)
+        string_final = string_final + vira_string(matriz_atual)
         
-    
-    
     return string_final
 
 

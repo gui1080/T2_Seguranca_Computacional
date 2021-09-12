@@ -12,7 +12,10 @@ import math
 
 from AES_enc import create_input, vira_string
 from AES_enc import add_round_key, mix_columns, shift_rows, sub_bytes
-from AES_enc import aes_ecb
+from AES_enc import enc_aes_ecb
+
+from AES_dec import inv_sub_bytes, inv_shift_rows, inv_mix_columns
+from AES_dec import dec_aes_ecb
 
 from key_gen import gera_key
 
@@ -22,7 +25,7 @@ from imagem import pega_string_da_imagem
 # ------------------------------------------------
 
 # pegar do usuário o que é para ser executado!
-op = int(input("Que operação realizar?\nResponda com número equivalente.\n\n1- Cifrar (AES Simples)\n2- Decifra(AES Simples)\n"))
+op = int(input("Que operação realizar?\nResponda com número correspondente.\n\n1- Cifrar (AES ECB)\n2- Decifra(AES ECB)\n"))
 
 
 if(op == 1):
@@ -31,76 +34,51 @@ if(op == 1):
     
     # abrindo a imagem
     with open(imagem, "rb") as image2string:
-        converted_string = base64.b16encode(image2string.read())
+        string_convertida = base64.b16encode(image2string.read())
 
     # string contendo a imagem
-    new_string = str(converted_string, "utf-8").lower()
+    string_analisada = str(string_convertida, "utf-8").lower()
 
     # passa a chave
-    key = input("Entre com a sua chave (formato de string)\n")
+    key = input("Entre com a sua chave\nEspera-se 32 caracteres (HEX)\n")
     key = key.lower()  
 
-    # faz o aes
+    # repetições
+    rep = int(input("Entre com o número de repetições desejadas na cifragem!\n"))
 
+    # faz o aes enc
+    cifra = enc_aes_ecb(key, string_analisada, rep)
+    
+    print("CT")
+    print(cifra)
+    
     
 if(op == 2):
     
     # string contendo a imagem
-    new_string = input("Entre com a sua mensagem cifrada\n")
-    new_string = new_string.lower()
+    string_analisada = input("Entre com a sua mensagem cifrada\n")
+    string_analisada = string_analisada.lower()
 
     # passa a chave
-    key = input("Entre com a sua chave\n")
+    key = input("Entre com a sua chave\nEspera-se 32 caracteres (HEX)\n")
     key = key.lower() 
     
-    # faz o aes inverso 
+    # repetições
+    rep = int(input("Entre com o número de repetições desejadas na cifragem!\n"))
+
+    # faz o aes dec
+    plaintext = dec_aes_ecb(key, string_analisada, rep)
+    
+    print("PT")
+    print(plaintext)
     
     
 
 
 # ------------------------------------------------
 
-# coisas de exemplo, apaga dps
-
 # strings de exemplo
-a = '5a746f2a4f6e15202e696e642054a46f'
-b = 'a46f15205a746f2a4f6e2e696e642054'
-c = 'd42711aee0bf98f1b8b45de51e415230'
-d = 'd4bf5d30e0b452aeb84111f11e2798e5'
-
-# cria matriz e key a partir das strings 
-matriz = create_input(a)
-key = create_input(b)
-
-# teste com passos do AES ENC
-matriz = add_round_key(matriz, key)
-matriz = sub_bytes(matriz)
-
-key = gera_key(key, 1)
-
-print("CT")
-print(matriz)
-print("KEY")
-print(key)
-
-print("testes com shiftrows")
-matrix=create_input(c)
-print(matrix)
-matrix=shift_rows(matrix)
-print("\n")
-print(matrix)
-
-print("testes com mixcolumns")
-matrix=create_input(d)
-print(matrix)
-matrix=mix_columns(matrix)
-print("\n")
-print(matrix)
-
-print(vira_string(matrix))
-
-#matriz esperada:
-#04 e0 48 28
-#66 cb f8 06
-#81 19 d3 26
-#e5 9a 7a 4c
+#a = '5a746f2a4f6e15202e696e642054a46f'
+#b = 'a46f15205a746f2a4f6e2e696e642054'
+#c = 'd42711aee0bf98f1b8b45de51e415230'
+#d = 'd4bf5d30e0b452aeb84111f11e2798e5'
