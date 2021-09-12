@@ -20,6 +20,24 @@ from imagem import pega_string_da_imagem
 # shift rows
 # mix columns
 
+# ------------------------------------------------
+
+# essa função pega uma matriz 4x4 cifrada e transforma em string para entrar no resultado final
+def vira_string(matriz):
+
+    resultado = ""
+
+    for i in range(4):
+        for j in range(4):
+            if(len(str(matriz[i][j])) == 1):
+                resultado = resultado + '0' + str(matriz[i][j])
+            else:
+                resultado = resultado + '0' + str(matriz[i][j])
+
+    return resultado
+
+# ------------------------------------------------
+
 def create_input(entrada):
     
     # essa função pega 32 caracteres e retorna a matrix correta de hexadecimais 4x4
@@ -161,11 +179,11 @@ def mix_columns(matriz):
 
 # ------------------------------------------------
 
-# SIMPLE AES ENC
+# SIMPLE AES ENCRIPTION
 # funciona para uma string de tamanho x
 # faz AES n vezes para cada subsegmento da string
 
-def aes(key, string, qntd_iteracoes):
+def aes_ecb(key, string, qntd_iteracoes):
     
     # aes recebe a string inteira a ser cifrada
     # deve-se pegar os grupos de 32 numeros, transformar em matriz

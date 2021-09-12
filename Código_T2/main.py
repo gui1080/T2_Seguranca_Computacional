@@ -10,11 +10,9 @@
 import base64
 import math
 
-from AES_enc import create_input, sub_bytes
-from AES_enc import add_round_key
-from AES_enc import shift_rows
-from AES_enc import mix_columns
-from AES_enc import aes
+from AES_enc import create_input, vira_string
+from AES_enc import add_round_key, mix_columns, shift_rows, sub_bytes
+from AES_enc import aes_ecb
 
 from key_gen import gera_key
 
@@ -98,6 +96,8 @@ print(matrix)
 matrix=mix_columns(matrix)
 print("\n")
 print(matrix)
+
+print(vira_string(matrix))
 
 #matriz esperada:
 #04 e0 48 28
