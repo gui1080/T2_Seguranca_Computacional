@@ -24,6 +24,8 @@ from key_gen import gera_key
 
 from imagem import pega_string_da_imagem
 
+from salvar import salva
+
 
 # ------------------------------------------------
 
@@ -54,6 +56,7 @@ if(op == 1):
     #print(cifra)
     
     # salva a cifra e a string original num arquivo
+    salvar = salva(cifra)
     
     
 if(op == 2):
@@ -73,7 +76,8 @@ if(op == 2):
     plaintext = dec_aes_ecb(key, string_analisada, rep)
     
     print("PT")
-    #print(plaintext)
+    
+    salvar = salva(plaintext)
     
     
 if(op == 3):
@@ -99,6 +103,7 @@ if(op == 3):
     #print(cifra)
     
     # salva a cifra e a string original num arquivo
+    salvar = salva(cifra)
     
 if(op == 4):
     
@@ -117,7 +122,8 @@ if(op == 4):
     plaintext = dec_aes_ctr(key, string_analisada, rep)
     
     print("PT")
-    #print(plaintext)
+    
+    salvar = salva(plaintext)
 
 # ------------------------------------------------
 
