@@ -37,6 +37,7 @@ def vira_string(matriz):
 
     return resultado
 
+
 # ------------------------------------------------
 
 def create_input(entrada):
@@ -103,33 +104,38 @@ def sub_bytes(matriz):
 
 def shift_rows(matriz):
     #embaralha as colunas: segunda linha uma vez, terceira 2 vezes e quarta linha vezes
-    for i in range(3):
-        temp0 = matriz[i+1][0]
-        temp1 = matriz[i+1][1]
-        temp2 = matriz[i+1][2]
-        temp3 = matriz[i+1][3]
-        matriz[i+1][0]= temp1
-        matriz[i+1][1]= temp2
-        matriz[i+1][2]= temp3
-        matriz[i+1][3]= temp0
-        if i>0:
-            temp0 = matriz[i+1][0]
-            temp1 = matriz[i+1][1]
-            temp2 = matriz[i+1][2]
-            temp3 = matriz[i+1][3]
-            matriz[i+1][0]= temp1
-            matriz[i+1][1]= temp2
-            matriz[i+1][2]= temp3
-            matriz[i+1][3]= temp0
-            if i==2:
-                temp0 = matriz[i+1][0]
-                temp1 = matriz[i+1][1]
-                temp2 = matriz[i+1][2]
-                temp3 = matriz[i+1][3]
-                matriz[i+1][0]= temp1
-                matriz[i+1][1]= temp2
-                matriz[i+1][2]= temp3
-                matriz[i+1][3]= temp0
+    
+    temp0 = matriz[1][0]
+    temp1 = matriz[1][1]
+    temp2 = matriz[1][2]
+    temp3 = matriz[1][3]
+    
+    matriz[1][0] = temp1
+    matriz[1][1] = temp2
+    matriz[1][2] = temp3
+    matriz[1][3] = temp0
+    
+    temp0 = matriz[2][0]
+    temp1 = matriz[2][1]
+    temp2 = matriz[2][2]
+    temp3 = matriz[2][3]
+    
+    matriz[2][0] = temp2
+    matriz[2][1] = temp3
+    matriz[2][2] = temp0
+    matriz[2][3] = temp1
+    
+    temp0 = matriz[3][0]
+    temp1 = matriz[3][1]
+    temp2 = matriz[3][2]
+    temp3 = matriz[3][3]
+    
+    matriz[3][0] = temp3
+    matriz[3][1] = temp0
+    matriz[3][2] = temp1
+    matriz[3][3] = temp2
+    
+    return matriz
 
     return matriz
 
@@ -192,7 +198,7 @@ def enc_aes_ecb(key, string, qntd_iteracoes):
     
     string_final = ""
     
-    # tamanho da string (eita)
+    # tamanho da string 
     tamanho_img = len(string) 
 
     # arredonda pra baixo
@@ -207,17 +213,40 @@ def enc_aes_ecb(key, string, qntd_iteracoes):
         
         key_atual = create_input(key)
         
+        if(i == 0):
+            print("\n\nPasso a passo, exemplo para primeira iteração da primeira parte da string")
+            print("Key:")
+            print(key_atual)
+            print("Matriz atual:")
+            print(matriz_atual)
+        
         for j in range(qntd_iteracoes):
         
             key_atual = gera_key(key_atual, j)
         
             matriz_atual = add_round_key(matriz_atual, key_atual)
+            
+            if((i == 0) and (j == 0)):
+                print("Add round key")
+                print(matriz_atual)
         
             matriz_atual = sub_bytes(matriz_atual)
+            
+            if((i == 0) and (j == 0)):
+                print("Sub bytes")
+                print(matriz_atual)
         
             matriz_atual = shift_rows(matriz_atual)
+            
+            if((i == 0) and (j == 0)):
+                print("Shift rows")
+                print(matriz_atual)
         
             matriz_atual = mix_columns(matriz_atual)
+            
+            if((i == 0) and (j == 0)):
+                print("Mix columns")
+                print(matriz_atual)
             
         string_final = string_final + vira_string(matriz_atual)
         
@@ -226,3 +255,80 @@ def enc_aes_ecb(key, string, qntd_iteracoes):
 
 # ------------------------------------------------
 
+def enc_aes_ctr(key, string, qntd_iteracoes):
+    
+    # aes recebe a string inteira a ser cifrada
+    # deve-se pegar os grupos de 32 numeros, transformar em matriz
+    # e fazer isso até a string original acabar
+    
+    string_final = ""
+    
+    # tamanho da string 
+    tamanho_img = len(string) 
+
+    # arredonda pra baixo
+    qtnd_float = tamanho_img / 32
+    quantidade = math.floor(qtnd_float) 
+    
+    for i in range(quantidade):
+        
+        iteracao = pega_string_da_imagem(string, i)
+        
+        matriz_atual = create_input(iteracao)
+        
+        key_atual = create_input(key)
+        
+        # lidando com o contador do modo CTR
+        # no começo de cada iteração, ele pega a key e soma o contador
+        # contador vira string de hexadecimal
+        # que então vira matriz 4x4, e passa por um xor da matriz da entrada
+        contador = str(hex(i)[2:])
+        while(len(contador) != 32):
+            temp = '0' + contador
+            contador = temp
+
+        contador = create_input(contador)
+
+        matriz_atual = add_round_key(matriz_atual, contador)
+        
+        if(i == 0):
+            print("\n\nPasso a passo, exemplo para primeira iteração da primeira parte da string")
+            print("Key:")
+            print(key_atual)
+            print("Matriz atual:")
+            print(matriz_atual)
+        
+        for j in range(qntd_iteracoes):
+        
+            key_atual = gera_key(key_atual, j)
+        
+            matriz_atual = add_round_key(matriz_atual, key_atual)
+            
+            if((i == 0) and (j == 0)):
+                print("Add round key")
+                print(matriz_atual)
+        
+            matriz_atual = sub_bytes(matriz_atual)
+            
+            if((i == 0) and (j == 0)):
+                print("Sub bytes")
+                print(matriz_atual)
+        
+            matriz_atual = shift_rows(matriz_atual)
+            
+            if((i == 0) and (j == 0)):
+                print("Shift rows")
+                print(matriz_atual)
+        
+            matriz_atual = mix_columns(matriz_atual)
+            
+            if((i == 0) and (j == 0)):
+                print("Mix columns")
+                print(matriz_atual)
+            
+        string_final = string_final + vira_string(matriz_atual)
+        
+    return string_final
+
+
+# ------------------------------------------------
