@@ -75,8 +75,6 @@ if(op == 2):
     # faz o aes dec
     plaintext = dec_aes_ecb(key, string_analisada, rep)
     
-    print("PT")
-    
     salvar = salva(plaintext)
     
     
@@ -121,13 +119,11 @@ if(op == 4):
     # faz o aes dec
     plaintext = dec_aes_ctr(key, string_analisada, rep)
     
-    print("PT")
-    
     salvar = salva(plaintext)
 
 # ------------------------------------------------
 
-# strings de exemplo
+# strings de exemplo (key)
 #a = '5a746f2a4f6e15202e696e642054a46f'
 #b = 'a46f15205a746f2a4f6e2e696e642054'
 #c = 'd42711aee0bf98f1b8b45de51e415230'

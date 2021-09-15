@@ -248,6 +248,13 @@ def enc_aes_ecb(key, string, qntd_iteracoes):
                 print("Mix columns")
                 print(matriz_atual)
             
+        # passo final
+        matriz_atual = sub_bytes(matriz_atual)
+        matriz_atual = shift_rows(matriz_atual)
+        key_atual = gera_key(key_atual, qntd_iteracoes)
+        matriz_atual = add_round_key(matriz_atual, key_atual)  
+        
+        # guarda o resultado    
         string_final = string_final + vira_string(matriz_atual)
         
     return string_final
@@ -325,8 +332,17 @@ def enc_aes_ctr(key, string, qntd_iteracoes):
             if((i == 0) and (j == 0)):
                 print("Mix columns")
                 print(matriz_atual)
-            
+         
+        # passo final       
+        matriz_atual = sub_bytes(matriz_atual)
+        matriz_atual = shift_rows(matriz_atual)
+        key_atual = gera_key(key_atual, qntd_iteracoes)
+        matriz_atual = add_round_key(matriz_atual, key_atual)   
+        
+        # guarda o resultado 
         string_final = string_final + vira_string(matriz_atual)
+        
+        
         
     return string_final
 
